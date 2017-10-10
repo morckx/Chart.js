@@ -431,6 +431,14 @@ module.exports = function(Chart) {
 		var width = boundingRect.right - boundingRect.left - paddingLeft - paddingRight;
 		var height = boundingRect.bottom - boundingRect.top - paddingTop - paddingBottom;
 
+		if(navigator.userAgent.toLowerCase().indexOf('firefox') < 0 && typeof Reveal === 'object') {
+			var scale = Reveal.getScale();
+			if(scale > 1) {
+				mouseX /= scale;
+				mouseY /= scale;
+			}
+		}
+
 		// We divide by the current device pixel ratio, because the canvas is scaled up by that amount in each direction. However
 		// the backend model is in unscaled coordinates. Since we are going to deal with our model coordinates, we go back here
 		mouseX = Math.round((mouseX - boundingRect.left - paddingLeft) / (width) * canvas.width / chart.currentDevicePixelRatio);
